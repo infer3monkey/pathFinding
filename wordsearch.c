@@ -3,15 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Declarations of the two functions you will implement
-// Feel free to declare any helper functions or global variables
-
 void printPuzzle(char** arr);
 void searchPuzzle(char** arr, char* word);
 void printSolution(int** arr);
 int bSize;
 
-// Main function, DO NOT MODIFY
 
 int main(int argc, char **argv) {
     if (argc != 2) {
