@@ -8,26 +8,24 @@ void searchPuzzle(char** arr, char* word);
 void printSolution(int** arr);
 int bSize;
 
-
 int main(int argc, char **argv) {
+    //main function given by school along with the txt files. Everything else was coded by me
     if (argc != 2) {
         fprintf(stderr, "Usage: %s <puzzle file name>\n", argv[0]);
         return 2;
     }
     int i, j;
     FILE *fptr;
-    // Open file for reading puzzle
     fptr = fopen(argv[1], "r");
     if (fptr == NULL) {
         printf("Cannot Open Puzzle File!\n");
         return 0;
     }
-    // Read the size of the puzzle block
+
     fscanf(fptr, "%d\n", &bSize);
-    // Allocate space for the puzzle block and the word to be searched
     char **block = (char**)malloc(bSize * sizeof(char*));
     char *word = (char*)malloc(20 * sizeof(char));
-    // Read puzzle block into 2D arrays
+
     for(i = 0; i < bSize; i++) {
         *(block + i) = (char*)malloc(bSize * sizeof(char));
         for (j = 0; j < bSize - 1; ++j) {
@@ -38,19 +36,17 @@ int main(int argc, char **argv) {
     fclose(fptr);
     printf("Enter the word to search: ");
     scanf("%s", word);
-    // Print out original puzzle grid
+    
     printf("\nPrinting puzzle before search:\n");
     printPuzzle(block);
-    // Call searchPuzzle to the word in the puzzle
+    
     searchPuzzle(block, word);
     return 0;
 }
 
 void printPuzzle(char** arr) {
     // This function will print out the complete puzzle grid (arr).
-    // It must produce the output in the SAME format as the samples
-    // in the instructions.
-    // Your implementation here...
+
     for(int i = 0; i < bSize; i++){ //looping through each row
 
         if(i != 0){
@@ -69,7 +65,6 @@ void printPuzzle(char** arr) {
 }
 
 void printSolution(int** arr) {
-    //prints out the solution path in the same manner as the prompt
 
     for(int i = 0; i < bSize; i++){ //looping through each row
 
@@ -99,8 +94,8 @@ int checkIfSolutionExists(char** arr, char* word, int count, int** copyarr){
 
     int size = strlen(word);
     int **finalarr = copyarr;
-    int LookingFor = *(word+count);//converting to ascii
-    int adjacent; //0 for false, 1 for true
+    int LookingFor = *(word+count);
+    int adjacent;
 
     if (count == size){
         printf("\n\nWord found!\n");
@@ -113,17 +108,15 @@ int checkIfSolutionExists(char** arr, char* word, int count, int** copyarr){
         
         for(int j = 0; j < bSize; j++){ //looping through each character
                 
-            int Current = *(*(arr+i)+j);//converting to ascii
+            int Current = *(*(arr+i)+j);
 
-            if(LookingFor == Current || LookingFor-32 == Current){//checking if = and accounting for lowercase/uppercase
-                //Found the corresponding Letter
+            if(LookingFor == Current || LookingFor-32 == Current){
                 //Once I found the corresponding Letter I need to make sure it's adjacent to something
             
                 adjacent = 0;
                 for(int x = -1; x < 2; x++){//row
                     for(int z = -1; z < 2; z++){//column
                         //Checking For Adjacency which is essentially a 3x3 matrix
-                        //need to make sure it is in bounds then check if there is a value around it
     
                         if((x+i >= 0 && x+i < bSize) && (z+j >= 0 && z+j < bSize) && ((*(*(finalarr+i+x)+j+z) == count) 
                             || (((*(*(finalarr+i+x)+j+z))-((*(*(finalarr+i+x)+j+z))%10))/10 == count)
@@ -131,7 +124,6 @@ int checkIfSolutionExists(char** arr, char* word, int count, int** copyarr){
                             || (((*(*(finalarr+i+x)+j+z))-((*(*(finalarr+i+x)+j+z))%1000))/1000 == count)
                             || (((*(*(finalarr+i+x)+j+z))-((*(*(finalarr+i+x)+j+z))%10000))/10000 == count)
                         )){ //making sure the adjacent value is it's predecessor
-                            //so if we're on letter 2 we're only looking for 1 being adjacent
                             adjacent = 1;
                         }
                     }
@@ -166,17 +158,11 @@ int checkIfSolutionExists(char** arr, char* word, int count, int** copyarr){
 }
 
 void searchPuzzle(char** arr, char* word) {
-    // This function checks if arr contains the search word. If the
-    // word appears in arr, it will print out a message and the path
-    // as shown in the sample runs. If not found, it will print a
-    // different message as shown in the sample runs.
-    // Your implementation here...
-
     int **finalarr = (int**)malloc(bSize * sizeof(int*));
 
-    for(int i = 0; i < bSize; i++){ //initializing finalarr with 0's
+    for(int i = 0; i < bSize; i++){
 
-        *(finalarr + i) = (int*)malloc(bSize * sizeof(int)); //creating the pointers that the double pointer is pointing to
+        *(finalarr + i) = (int*)malloc(bSize * sizeof(int)); 
 
         for(int j = 0; j < bSize; j++){
             *(*(finalarr+i)+j) = 0;
